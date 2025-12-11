@@ -13,7 +13,8 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+
         @csrf
         @method('patch')
 
@@ -24,8 +25,16 @@
         </div>
 
         <div>
+            <x-input-label for="username" :value="__('Username (profile name)')" />
+            <x-text-input id="username" name="username" type="text" class="mt-1 block w-full"
+                            :value="old('username', $user->username)" autocomplete="username" />
+            <x-input-error class="mt-2" :messages="$errors->get('username')" />
+        </div>
+
+
+        <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="email" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
@@ -46,6 +55,48 @@
                 </div>
             @endif
         </div>
+
+        <div>
+            <x-input-label for="birthday" :value="__('Birthday')" />
+            <x-text-input
+                id="birthday"
+                name="birthday"
+                type="date"
+                class="mt-1 block w-full"
+                :value="old('birthday', $user->birthday ? $user->birthday->format('Y-m-d') : '')"
+            />
+            <x-input-error class="mt-2" :messages="$errors->get('birthday')" />
+        </div>
+
+        <div>
+            <x-input-label for="about" :value="__('About me')" />
+            <textarea id="about" name="about"
+                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                      rows="4">{{ old('about', $user->about) }}</textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('about')" />
+        </div>
+
+        <div>
+            <x-input-label for="avatar" :value="__('Profile picture')" />
+
+            @if($user->avatar_path)
+                <div class="mb-2">
+                    <img src="{{ asset('storage/' . $user->avatar_path) }}"
+                         alt="Avatar of {{ $user->username ?? $user->name ?? $user->email }}"
+                         class="h-16 w-16 rounded-full object-cover">
+                </div>
+            @endif
+
+            <input id="avatar" name="avatar" type="file"
+                   class="mt-1 block w-full text-sm text-gray-500
+                          file:mr-4 file:py-2 file:px-4
+                          file:rounded-md file:border-0
+                          file:text-sm file:font-semibold
+                          file:bg-gray-100 file:text-gray-700
+                          hover:file:bg-gray-200" />
+            <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
+        </div>
+
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
