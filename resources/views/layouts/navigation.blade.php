@@ -23,6 +23,11 @@
                         @endif
                     @endauth
 
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                        {{ __('Volunteers') }}
+                    </x-nav-link>
+
+
                 </div>
             </div>
 

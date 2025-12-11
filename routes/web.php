@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\UserProfileController;
 
 
 
@@ -27,6 +28,14 @@ Route::middleware(['auth', 'admin'])
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
     });
+
+
+Route::get('/users', [UserProfileController::class, 'index'])
+    ->name('users.index');
+
+// Publiek profiel (iedereen kan zien, geen middleware)
+Route::get('/users/{user}', [UserProfileController::class, 'show'])
+    ->name('users.show');   
 
 
 require __DIR__.'/auth.php';
