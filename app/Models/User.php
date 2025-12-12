@@ -51,4 +51,10 @@ class User extends Authenticatable
             'birthday' => 'date',
         ];
     }
+    
+    public function newsItems()
+    {
+        return $this->hasMany(NewsItem::class);
+    }
+
 }

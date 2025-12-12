@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Admin\NewsItemController as AdminNewsItemController;
+
 
 
 
@@ -27,15 +30,23 @@ Route::middleware(['auth', 'admin'])
     ->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
+
+        Route::resource('news', AdminNewsItemController::class)->except(['show']);
     });
 
 
 Route::get('/users', [UserProfileController::class, 'index'])
     ->name('users.index');
 
-// Publiek profiel (iedereen kan zien, geen middleware)
+
 Route::get('/users/{user}', [UserProfileController::class, 'show'])
     ->name('users.show');   
+
+
+
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
+
 
 
 require __DIR__.'/auth.php';
