@@ -57,4 +57,10 @@ class User extends Authenticatable
         return $this->hasMany(NewsItem::class);
     }
 
+    public function timelinePosts()
+    {
+        return $this->hasMany(TimelinePost::class)->latest();
+    }
+
+
 }

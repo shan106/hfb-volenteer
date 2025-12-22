@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('timeline_posts', function (Blueprint $table) {
+        Schema::create('faq_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->text('content');
-            $table->string('image_path')->nullable();
+            $table->string('name');              // bv. Algemene vragen, Vrijwilligers, Events ...
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('timeline_posts');
+        Schema::dropIfExists('faq_categories');
     }
 };

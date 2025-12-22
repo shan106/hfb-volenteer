@@ -20,12 +20,32 @@
                             <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
                                 {{ __('Admin') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('admin.news.index')" :active="request()->routeIs('admin.news.*')">
+                                {{ __('Manage News') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.faq.index')" :active="request()->routeIs('admin.faq.*')">
+                                {{ __('Manage FAQ') }}
+                            </x-nav-link>
+
                         @endif
                     @endauth
 
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                         {{ __('Volunteers') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('news.index')" :active="request()->routeIs('news.*')">
+                        {{ __('News') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('timeline.index')" :active="request()->routeIs('timeline.*')">
+                        {{ __('Timeline') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.index')">
+                        {{ __('FAQ') }}
+                    </x-nav-link>
+
+
 
 
                 </div>

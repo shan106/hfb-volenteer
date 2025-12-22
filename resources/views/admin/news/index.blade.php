@@ -9,9 +9,12 @@
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-4 flex justify-between items-center">
                 <h3 class="text-lg font-semibold">News items</h3>
-                <a href="{{ route('admin.news.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md text-sm">
-                    + {{ __('New item') }}
+                <a href="{{ route('admin.news.create') }}">
+                    <x-primary-button type="button">
+                        + {{ __('New item') }}
+                    </x-primary-button>
                 </a>
+
             </div>
 
             @if(session('status'))
