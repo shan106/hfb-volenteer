@@ -73,20 +73,7 @@
                         @enderror
                     </div>
 
-                    {{-- Sort order --}}
-                    <div class="mb-4">
-                        <label for="sort_order" class="block text-sm font-medium text-gray-700">
-                            {{ __('Sort order (optional)') }}
-                        </label>
-                        <input id="sort_order"
-                               name="sort_order"
-                               type="number"
-                               value="{{ old('sort_order') }}"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        @error('sort_order')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    
 
                     {{-- Public --}}
                     <div class="mb-6">

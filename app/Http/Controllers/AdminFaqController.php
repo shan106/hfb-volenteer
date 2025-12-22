@@ -30,10 +30,13 @@ class AdminFaqController extends Controller
             'question'        => ['required', 'string', 'max:255'],
             'answer'          => ['required', 'string'],
             'sort_order'      => ['nullable', 'integer'],
-            'is_public'       => ['nullable', 'boolean'],
+            
         ]);
 
         $data['is_public'] = $request->boolean('is_public');
+
+        $maxSort = Faq::where('faq_category_id', $data['faq_category_id'])->max('sort_order');
+        $data['sort_order'] = ($maxSort ?? 0) + 1; 
 
         Faq::create($data);
 
@@ -59,6 +62,10 @@ class AdminFaqController extends Controller
         ]);
 
         $data['is_public'] = $request->boolean('is_public');
+
+        if (is_null($data['sort_order'])) {
+        $data['sort_order'] = $faq->sort_order; 
+    }
 
         $faq->update($data);
 
