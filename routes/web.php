@@ -8,6 +8,8 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\ContactController;
+
 
 // Admin-specifieke controllers
 use App\Http\Controllers\AdminFaqController;
@@ -74,6 +76,13 @@ Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline.in
 
 
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+
+Route::get('/contact', [ContactController::class, 'show'])
+    ->name('contact.show');
+
+Route::post('/contact', [ContactController::class, 'submit'])
+    ->name('contact.submit');
+
 
 
 
