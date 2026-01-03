@@ -89,15 +89,15 @@ Route::middleware(['auth', 'admin'])
         Route::put('faq-categories/{category}', [AdminFaqController::class, 'updateCategory'])->name('faq.categories.update');
         Route::delete('faq-categories/{category}', [AdminFaqController::class, 'destroyCategory'])->name('faq.categories.destroy');
 
-        // Users
-    Route::resource('users', AdminUserController::class)->except(['show']);
-    Route::post('users/{user}/toggle-admin', [AdminUserController::class, 'toggleAdmin'])
-        ->name('users.toggleAdmin');
+        
+        Route::resource('users', AdminUserController::class)->except(['show']);
+        Route::post('users/{user}/toggle-admin', [AdminUserController::class, 'toggleAdmin'])
+            ->name('users.toggleAdmin');
 
-    // Contact messages
-    Route::get('contact-messages', [ContactMessageController::class, 'index'])->name('contact-messages.index');
-    Route::get('contact-messages/{contactMessage}', [ContactMessageController::class, 'show'])->name('contact-messages.show');
-    Route::post('contact-messages/{contactMessage}/reply', [ContactMessageController::class, 'reply'])->name('contact-messages.reply');
+        
+        Route::get('contact-messages', [ContactMessageController::class, 'index'])->name('contact-messages.index');
+        Route::get('contact-messages/{contactMessage}', [ContactMessageController::class, 'show'])->name('contact-messages.show');
+        Route::post('contact-messages/{contactMessage}/reply', [ContactMessageController::class, 'reply'])->name('contact-messages.reply');
     });
 
 
