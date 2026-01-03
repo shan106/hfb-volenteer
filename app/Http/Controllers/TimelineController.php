@@ -4,15 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Models\TimelinePost;
 use Illuminate\Http\Request;
+use App\Models\TimelineLike; 
+use Illuminate\Support\Facades\Auth;
 
 class TimelineController extends Controller
 {
     public function index()
     {
-        $posts = TimelinePost::with('user')->orderByDesc('created_at')->paginate(10);
+        $posts = TimelinePost::with(['user', 'likes'])
+            ->withCount('likes')
+            ->orderByDesc('created_at')
+            ->paginate(10);
 
         return view('timeline.index', compact('posts'));
     }
+
+
+    public function like(TimelinePost $post)
+    {
+        $userId = Auth::id();
+
+        // voorkom dubbele likes
+        TimelineLike::firstOrCreate([
+            'user_id'          => $userId,
+            'timeline_post_id' => $post->id,
+        ]);
+
+        return back()->with('status', 'You liked this post.');
+    }
+
+    public function unlike(TimelinePost $post)
+    {
+        $userId = Auth::id();
+
+        TimelineLike::where('user_id', $userId)
+            ->where('timeline_post_id', $post->id)
+            ->delete();
+
+        return back()->with('status', 'You unliked this post.');
+    }
+
+
 
     public function store(Request $request)
     {

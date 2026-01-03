@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\TimelinePost;
+
 
 class User extends Authenticatable
 {
@@ -61,6 +63,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(TimelinePost::class)->latest();
     }
+    public function likedTimelinePosts()
+    {
+        return $this->belongsToMany(TimelinePost::class, 'timeline_post_user')->withTimestamps();
+    }
+
 
 
 }

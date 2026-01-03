@@ -6,25 +6,71 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <h3 class="text-lg font-bold mb-4">
-                        Welcome, {{ auth()->user()->name ?? auth()->user()->email }} (Admin)
-                    </h3>
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-                    <p class="mb-2">
-                        Dit is het beheerspaneel voor Humanity First Belgium.
+            <div class="bg-white shadow-sm rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900">
+                    Welcome, {{ auth()->user()->username ?? auth()->user()->name }} (Admin)
+                </h3>
+                <p class="mt-1 text-sm text-gray-600">
+                    Kies een onderdeel om te beheren.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {{-- Manage News --}}
+                <a href="{{ route('admin.news.index') }}"
+                   class="group bg-white shadow-sm rounded-lg p-6 border hover:border-indigo-300 hover:shadow transition">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h4 class="text-base font-semibold text-gray-900 group-hover:text-indigo-700">
+                                Manage News
+                            </h4>
+                            <p class="mt-1 text-sm text-gray-600">
+                                Voeg nieuws toe, bewerk of verwijder nieuwsitems.
+                            </p>
+                        </div>
+                        <span class="text-indigo-600 text-xl">→</span>
+                    </div>
+                </a>
+
+                {{-- Manage FAQ --}}
+                <a href="{{ route('admin.faq.index') }}"
+                   class="group bg-white shadow-sm rounded-lg p-6 border hover:border-indigo-300 hover:shadow transition">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h4 class="text-base font-semibold text-gray-900 group-hover:text-indigo-700">
+                                Manage FAQ
+                            </h4>
+                            <p class="mt-1 text-sm text-gray-600">
+                                Beheer FAQ-categorieën en vragen/antwoorden.
+                            </p>
+                        </div>
+                        <span class="text-indigo-600 text-xl">→</span>
+                    </div>
+                </a>
+
+                {{-- (Optioneel later) Users --}}
+                <div class="bg-gray-50 shadow-sm rounded-lg p-6 border">
+                    <h4 class="text-base font-semibold text-gray-800">
+                        Manage Users (later)
+                    </h4>
+                    <p class="mt-1 text-sm text-gray-600">
+                        Overzicht en adminrechten beheren (kan je later toevoegen).
                     </p>
+                </div>
 
-                    <ul class="list-disc pl-5 space-y-1">
-                        <li>Hier komt later: beheer van gebruikers (vrijwilligers).</li>
-                        <li>Beheer van nieuws / projecten.</li>
-                        <li>Beheer van FAQ-categorieën & vragen.</li>
-                        <li>Overzicht van contactformulieren.</li>
-                    </ul>
+                {{-- (Optioneel later) Contact forms --}}
+                <div class="bg-gray-50 shadow-sm rounded-lg p-6 border">
+                    <h4 class="text-base font-semibold text-gray-800">
+                        Contact Forms (later)
+                    </h4>
+                    <p class="mt-1 text-sm text-gray-600">
+                        Overzicht van berichten en antwoorden via admin panel.
+                    </p>
                 </div>
             </div>
+
         </div>
     </div>
 </x-app-layout>

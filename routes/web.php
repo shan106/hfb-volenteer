@@ -33,6 +33,38 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/users', [UserProfileController::class, 'index'])
+    ->name('users.index');
+
+
+    Route::get('/users/{user}', [UserProfileController::class, 'show'])
+    ->name('users.show');   
+
+
+
+    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
+
+
+    Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline.index');
+
+
+    Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+
+    Route::get('/contact', [ContactController::class, 'show'])
+        ->name('contact.show');
+
+    Route::post('/contact', [ContactController::class, 'submit'])
+        ->name('contact.submit');
+        
+    Route::post('/timeline', [TimelineController::class, 'store'])->name('timeline.store');
+    Route::delete('/timeline/{post}', [TimelineController::class, 'destroy'])->name('timeline.destroy');
+
+    Route::post('/timeline/{post}/like', [TimelineController::class, 'like'])
+        ->name('timeline.like');
+    Route::delete('/timeline/{post}/like', [TimelineController::class, 'unlike'])
+        ->name('timeline.unlike');
     
 });
 
@@ -56,32 +88,20 @@ Route::middleware(['auth', 'admin'])
         Route::post('faq-categories', [AdminFaqController::class, 'storeCategory'])->name('faq.categories.store');
         Route::put('faq-categories/{category}', [AdminFaqController::class, 'updateCategory'])->name('faq.categories.update');
         Route::delete('faq-categories/{category}', [AdminFaqController::class, 'destroyCategory'])->name('faq.categories.destroy');
+
+        // Users
+    Route::resource('users', AdminUserController::class)->except(['show']);
+    Route::post('users/{user}/toggle-admin', [AdminUserController::class, 'toggleAdmin'])
+        ->name('users.toggleAdmin');
+
+    // Contact messages
+    Route::get('contact-messages', [ContactMessageController::class, 'index'])->name('contact-messages.index');
+    Route::get('contact-messages/{contactMessage}', [ContactMessageController::class, 'show'])->name('contact-messages.show');
+    Route::post('contact-messages/{contactMessage}/reply', [ContactMessageController::class, 'reply'])->name('contact-messages.reply');
     });
 
 
-Route::get('/users', [UserProfileController::class, 'index'])
-    ->name('users.index');
 
-
-Route::get('/users/{user}', [UserProfileController::class, 'show'])
-    ->name('users.show');   
-
-
-
-Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
-
-
-Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline.index');
-
-
-Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
-
-Route::get('/contact', [ContactController::class, 'show'])
-    ->name('contact.show');
-
-Route::post('/contact', [ContactController::class, 'submit'])
-    ->name('contact.submit');
 
 
 

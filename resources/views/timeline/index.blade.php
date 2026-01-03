@@ -52,6 +52,7 @@
                                         {{ strtoupper(substr($post->user->username ?? $post->user->name ?? $post->user->email, 0, 1)) }}
                                     </div>
                                 @endif
+
                                 <div>
                                     <a href="{{ route('users.show', $post->user) }}" class="font-semibold text-gray-900 hover:underline">
                                         {{ $post->user->username ?? $post->user->name ?? $post->user->email }}
@@ -61,6 +62,7 @@
                                     </p>
                                 </div>
 
+                                {{-- Delete knop voor eigenaar of admin --}}
                                 @auth
                                     @if(auth()->id() === $post->user_id || auth()->user()->is_admin)
                                         <form action="{{ route('timeline.destroy', $post) }}" method="post" class="ml-auto">
@@ -82,8 +84,48 @@
                             @if($post->image_path)
                                 <img src="{{ asset('storage/' . $post->image_path) }}"
                                      alt="Post image"
-                                     class="max-h-80 rounded-md object-cover">
+                                     class="max-h-80 rounded-md object-cover mb-3">
                             @endif
+
+                            {{-- Likes --}}
+                            <div class="flex items-center gap-4 text-sm">
+                                @php
+                                    $hasLiked = auth()->check()
+                                        ? $post->likes->contains('user_id', auth()->id())
+                                        : false;
+                                    $likeCount = $post->likes_count ?? $post->likes->count();
+                                @endphp
+
+                                @auth
+                                    <form
+                                        method="POST"
+                                        action="{{ $hasLiked ? route('timeline.unlike', $post) : route('timeline.like', $post) }}"
+                                    >
+                                        @csrf
+                                        @if($hasLiked)
+                                            @method('DELETE')
+                                        @endif
+
+                                        <button
+                                            type="submit"
+                                            class="inline-flex items-center px-3 py-1 rounded-full border text-xs font-medium
+                                                   {{ $hasLiked
+                                                        ? 'bg-indigo-600 border-indigo-600 text-white'
+                                                        : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50' }}"
+                                        >
+                                            @if($hasLiked)
+                                                ❤️ {{ __('Liked') }}
+                                            @else
+                                                🤍 {{ __('Like') }}
+                                            @endif
+                                        </button>
+                                    </form>
+                                @endauth
+
+                                <span class="text-xs text-gray-500">
+                                    {{ $likeCount }} {{ Str::plural('like', $likeCount) }}
+                                </span>
+                            </div>
                         </article>
                     @empty
                         <p class="text-gray-600">{{ __('No posts yet.') }}</p>
