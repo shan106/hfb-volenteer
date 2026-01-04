@@ -9,20 +9,44 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ContactController;
+use App\Models\NewsItem;
+use App\Models\FaqCategory;
+
+
 
 
 // Admin-specifieke controllers
 use App\Http\Controllers\AdminFaqController;
 use App\Http\Controllers\Admin\NewsItemController as AdminNewsItemController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ContactMessageController;
 
 
 
 
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $latestNews = NewsItem::orderByDesc('published_at')
+        ->take(3)
+        ->get();
+
+    $faqCategories = FaqCategory::with(['faqs' => fn ($q) => $q->orderBy('id')])
+        ->take(4)
+        ->get();
+
+    return view('welcome', compact('latestNews', 'faqCategories'));
+})->name('home');
+
+
+Route::get('/contact', [ContactController::class, 'show'])
+    ->name('contact.show');
+
+Route::post('/contact', [ContactController::class, 'submit'])
+    ->name('contact.submit');
+
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -43,8 +67,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-    Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
+   
 
 
     Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline.index');
@@ -52,11 +75,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
-    Route::get('/contact', [ContactController::class, 'show'])
-        ->name('contact.show');
-
-    Route::post('/contact', [ContactController::class, 'submit'])
-        ->name('contact.submit');
+   
         
     Route::post('/timeline', [TimelineController::class, 'store'])->name('timeline.store');
     Route::delete('/timeline/{post}', [TimelineController::class, 'destroy'])->name('timeline.destroy');
@@ -90,8 +109,8 @@ Route::middleware(['auth', 'admin'])
         Route::delete('faq-categories/{category}', [AdminFaqController::class, 'destroyCategory'])->name('faq.categories.destroy');
 
         
-        Route::resource('users', AdminUserController::class)->except(['show']);
-        Route::post('users/{user}/toggle-admin', [AdminUserController::class, 'toggleAdmin'])
+        Route::resource('users', UserController::class)->except(['show']);
+        Route::post('users/{user}/toggle-admin', [UserController::class, 'toggleAdmin'])
             ->name('users.toggleAdmin');
 
         

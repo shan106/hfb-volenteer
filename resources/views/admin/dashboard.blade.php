@@ -50,25 +50,26 @@
                     </div>
                 </a>
 
-                {{-- (Optioneel later) Users --}}
-                <div class="bg-gray-50 shadow-sm rounded-lg p-6 border">
-                    <h4 class="text-base font-semibold text-gray-800">
-                        Manage Users (later)
-                    </h4>
-                    <p class="mt-1 text-sm text-gray-600">
-                        Overzicht en adminrechten beheren (kan je later toevoegen).
-                    </p>
-                </div>
+                <a href="{{ route('admin.users.index') }}" class="group bg-white shadow-sm rounded-lg p-6 border hover:border-indigo-300 hover:shadow transition">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h4 class="text-base font-semibold text-gray-900 group-hover:text-indigo-700">Manage Users</h4>
+                            <p class="mt-1 text-sm text-gray-600">Users bekijken, aanmaken en adminrechten beheren.</p>
+                        </div>
+                        <span class="text-indigo-600 text-xl">→</span>
+                    </div>
+                </a>
 
-                {{-- (Optioneel later) Contact forms --}}
-                <div class="bg-gray-50 shadow-sm rounded-lg p-6 border">
-                    <h4 class="text-base font-semibold text-gray-800">
-                        Contact Forms (later)
-                    </h4>
-                    <p class="mt-1 text-sm text-gray-600">
-                        Overzicht van berichten en antwoorden via admin panel.
-                    </p>
-                </div>
+                <a href="{{ route('admin.contact-messages.index') }}" class="group bg-white shadow-sm rounded-lg p-6 border hover:border-indigo-300 hover:shadow transition">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h4 class="text-base font-semibold text-gray-900 group-hover:text-indigo-700">Contact Forms</h4>
+                            <p class="mt-1 text-sm text-gray-600">Inzendingen bekijken en beantwoorden.</p>
+                        </div>
+                        <span class="text-indigo-600 text-xl">→</span>
+                    </div>
+                </a>
+
             </div>
 
         </div>
