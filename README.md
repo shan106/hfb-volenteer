@@ -9,14 +9,6 @@ Dit project is een data-driven Laravel webapplicatie voor Humanity First Belgium
 
 ---
 
-## ✅ Git / Repository
-
-**Repository URL:** <VUL_HIER_JE_GITHUB_REPO_LINK_IN>
-
-> Let op: `vendor/` en `node_modules/` staan in `.gitignore` (niet mee committen).
-
----
-
 ## 🚀 Installatie & opstarten 
 
 ### 1) Project clonen
@@ -191,16 +183,14 @@ MAIL_MAILER=log
 
 ---
 
-## 📝 Bronvermeldingen (verplicht)
+## 📝 Bronvermeldingen 
 
-> Voeg hier jouw echte bronnen toe (verplicht als je internetcode gebruikt).
+
 
 - Laravel documentatie: https://laravel.com/docs  
 - Laravel Breeze (auth scaffolding): https://github.com/laravel/breeze  
 - TailwindCSS documentatie: https://tailwindcss.com/docs  
 
-**Externe code snippets (indien gebruikt):**
-- (VUL AAN) Link + korte beschrijving + waar gebruikt + bevestiging dat je de code begrijpt.
 
 ---
 
