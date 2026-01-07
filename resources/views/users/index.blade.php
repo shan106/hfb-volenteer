@@ -32,25 +32,33 @@
                         <ul class="divide-y divide-gray-200">
                             @foreach($users as $user)
                                 <li class="py-4 flex items-center gap-4">
-                                    {{-- Avatar / initiaal --}}
+                                    {{-- Avatar / initiaal (ALTIJD zelfde grootte) --}}
+                                    @php
+                                        $displayName = $user->username ?? $user->name ?? $user->email;
+                                    @endphp
+
                                     @if($user->avatar_path)
-                                        <img src="{{ asset('storage/' . $user->avatar_path) }}"
-                                             alt="Avatar of {{ $user->username ?? $user->name ?? $user->email }}"
-                                             class="h-12 w-12 rounded-full object-cover">
+                                        <img
+                                            src="{{ asset('storage/' . $user->avatar_path) }}"
+                                            alt="Avatar of {{ $displayName }}"
+                                            class="h-14 w-14 aspect-square shrink-0 rounded-full object-cover object-center ring-1 ring-gray-200"
+                                        >
                                     @else
-                                        <div class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center text-lg font-semibold">
-                                            {{ strtoupper(substr($user->username ?? $user->name ?? $user->email, 0, 1)) }}
+                                        <div class="h-14 w-14 aspect-square shrink-0 rounded-full bg-gray-200 flex items-center justify-center text-lg font-semibold text-gray-700 ring-1 ring-gray-200">
+                                            {{ strtoupper(mb_substr($displayName, 0, 1)) }}
                                         </div>
                                     @endif
 
-                                    <div class="flex-1">
+                                    <div class="flex-1 min-w-0">
                                         <a href="{{ route('users.show', $user) }}"
                                            class="font-semibold text-gray-900 hover:underline">
-                                            {{ $user->username ?? $user->name ?? $user->email }}
+                                            {{ $displayName }}
                                         </a>
-                                        <div class="text-sm text-gray-500">
+
+                                        <div class="text-sm text-gray-500 truncate">
                                             {{ $user->email }}
                                         </div>
+
                                         @if($user->about)
                                             <p class="text-sm text-gray-700 mt-1 line-clamp-2">
                                                 {{ Str::limit($user->about, 120) }}
@@ -58,7 +66,7 @@
                                         @endif
                                     </div>
 
-                                    <div>
+                                    <div class="shrink-0">
                                         <a href="{{ route('users.show', $user) }}"
                                            class="text-sm text-indigo-600 hover:text-indigo-800">
                                             {{ __('View profile') }}
@@ -78,6 +86,7 @@
                     @endif
                 </div>
             </div>
+
         </div>
     </div>
 </x-app-layout>
