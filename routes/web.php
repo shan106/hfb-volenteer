@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\NewsCommentController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ContactController;
@@ -80,6 +81,12 @@ Route::middleware('auth')->group(function () {
         ->name('timeline.like');
     Route::delete('/timeline/{post}/like', [TimelineController::class, 'unlike'])
         ->name('timeline.unlike');
+
+    // Reacties op nieuwsberichten
+    Route::post('/news/{news:slug}/comments', [NewsCommentController::class, 'store'])
+        ->name('news.comments.store');
+    Route::delete('/news/{news:slug}/comments/{comment}', [NewsCommentController::class, 'destroy'])
+        ->name('news.comments.destroy');
 });
 
 Route::middleware(['auth', 'admin'])

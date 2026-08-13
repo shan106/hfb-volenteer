@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class NewsComment extends Model
+{
+    protected $fillable = [
+        'news_item_id',
+        'user_id',
+        'body',
+    ];
+
+    public function newsItem(): BelongsTo
+    {
+        return $this->belongsTo(NewsItem::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+}

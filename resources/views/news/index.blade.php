@@ -43,6 +43,7 @@
                             @if($featured->author)
                                 &middot; {{ $featured->author->username ?? $featured->author->name }}
                             @endif
+                            &middot; {{ trans_choice('{0}No comments|{1}1 comment|[2,*]:count comments', $featured->comments_count, ['count' => $featured->comments_count]) }}
                         </p>
 
                         @if($featured->excerpt)
@@ -83,6 +84,7 @@
                                 <div class="p-5 flex flex-col flex-1">
                                     <p class="text-xs text-gray-500">
                                         {{ optional($item->published_at)->format('d F Y') }}
+                                        &middot; {{ trans_choice('{0}No comments|{1}1 comment|[2,*]:count comments', $item->comments_count, ['count' => $item->comments_count]) }}
                                     </p>
 
                                     <h4 class="text-lg font-semibold text-gray-900 leading-snug mt-1">

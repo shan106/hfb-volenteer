@@ -27,4 +27,9 @@ class NewsItem extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(NewsComment::class)->latest();
+    }
 }
