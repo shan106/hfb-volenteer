@@ -139,6 +139,47 @@
             </div>
         </section>
 
+        {{-- Aanbevolen vrijwilligers (willekeurige selectie) --}}
+        @if($recommendedVolunteers->count())
+            <section class="bg-white border rounded-2xl p-6">
+                <div class="flex items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-xl font-semibold">Ontmoet onze vrijwilligers</h2>
+                        <p class="mt-1 text-sm text-gray-600">
+                            Een greep uit de mensen die onze projecten mogelijk maken.
+                        </p>
+                    </div>
+
+                    <a href="{{ route('users.index') }}"
+                       class="shrink-0 text-sm text-gray-700 hover:underline">
+                        Bekijk allemaal
+                    </a>
+                </div>
+
+                {{-- Zoekbalk: stuurt door naar het volledige overzicht --}}
+                <form method="get" action="{{ route('users.index') }}" class="mt-5 flex gap-2">
+                    <label for="home-volunteer-search" class="sr-only">Zoek een vrijwilliger</label>
+                    <input
+                        id="home-volunteer-search"
+                        name="q"
+                        type="search"
+                        placeholder="Zoek een vrijwilliger op naam"
+                        class="flex-1 rounded-xl border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900"
+                    >
+                    <button type="submit"
+                            class="rounded-xl bg-gray-900 px-5 py-2 text-sm font-semibold text-white hover:bg-gray-800 transition">
+                        Zoeken
+                    </button>
+                </form>
+
+                <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    @foreach($recommendedVolunteers as $volunteer)
+                        <x-volunteer-card :user="$volunteer" class="border" />
+                    @endforeach
+                </div>
+            </section>
+        @endif
+
         <a href="{{ route('contact.show') }}"
         class="block rounded-xl border bg-white p-6 hover:shadow-sm transition">
             <p class="font-semibold">Contact</p>

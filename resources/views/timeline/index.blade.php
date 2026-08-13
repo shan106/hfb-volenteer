@@ -84,7 +84,7 @@
                             @if($post->image_path)
                                 <img src="{{ asset('storage/' . $post->image_path) }}"
                                      alt="Post image"
-                                     class="max-h-80 rounded-md object-cover mb-3">
+                                     class="w-full h-64 rounded-md object-cover object-center mb-3">
                             @endif
 
                             {{-- Likes --}}

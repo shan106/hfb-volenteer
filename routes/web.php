@@ -11,6 +11,7 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ContactController;
 use App\Models\NewsItem;
 use App\Models\FaqCategory;
+use App\Models\User;
 
 
 
@@ -35,7 +36,13 @@ Route::get('/', function () {
         ->take(4)
         ->get();
 
-    return view('welcome', compact('latestNews', 'faqCategories'));
+    // Willekeurige selectie vrijwilligers, wisselt bij elke pagina-refresh
+    $recommendedVolunteers = User::where('is_admin', false)
+        ->inRandomOrder()
+        ->take(4)
+        ->get();
+
+    return view('welcome', compact('latestNews', 'faqCategories', 'recommendedVolunteers'));
 })->name('home');
 
 
@@ -48,6 +55,13 @@ Route::post('/contact', [ContactController::class, 'submit'])
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
 
+// Publieke FAQ (vereiste: elke bezoeker kan de FAQ zien)
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+
+// Publieke profielpagina's (vereiste: toegankelijk voor iedereen, ook niet-ingelogde bezoekers)
+Route::get('/users', [UserProfileController::class, 'index'])->name('users.index');
+Route::get('/users/{user}', [UserProfileController::class, 'show'])->name('users.show');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -58,25 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/users', [UserProfileController::class, 'index'])
-    ->name('users.index');
-
-
-    Route::get('/users/{user}', [UserProfileController::class, 'show'])
-    ->name('users.show');   
-
-
-
-   
-
-
     Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline.index');
-
-
-    Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
-
-   
-        
     Route::post('/timeline', [TimelineController::class, 'store'])->name('timeline.store');
     Route::delete('/timeline/{post}', [TimelineController::class, 'destroy'])->name('timeline.destroy');
 
@@ -84,7 +80,6 @@ Route::middleware('auth')->group(function () {
         ->name('timeline.like');
     Route::delete('/timeline/{post}/like', [TimelineController::class, 'unlike'])
         ->name('timeline.unlike');
-    
 });
 
 Route::middleware(['auth', 'admin'])
@@ -121,14 +116,6 @@ Route::middleware(['auth', 'admin'])
 
 
 
-
-
-
-
-Route::middleware('auth')->group(function () {
-    Route::post('/timeline', [TimelineController::class, 'store'])->name('timeline.store');
-    Route::delete('/timeline/{post}', [TimelineController::class, 'destroy'])->name('timeline.destroy');
-});
 
 
 
